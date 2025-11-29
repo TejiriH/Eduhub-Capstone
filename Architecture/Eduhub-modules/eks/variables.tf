@@ -1,0 +1,9 @@
+variable "kubernetes_version" { type = string }
+variable "instance_types" { type = list(string) }
+variable "min_nodes" { type = number }
+variable "max_nodes" { type = number }
+variable "desired_nodes" { type = number }
+variable "ssh_key_name" { type = string }
+variable "vpc_id" { type = string }
+variable "eks_subnet_ids" { type = list(string) }
+variable "project_name" { type = string }
