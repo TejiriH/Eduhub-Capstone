@@ -1,0 +1,8 @@
+apiVersion: v2
+name: eduhub-service
+description: A Helm chart for EduHub microservices platform
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Tejiri
