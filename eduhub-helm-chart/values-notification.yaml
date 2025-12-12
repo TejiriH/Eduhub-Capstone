@@ -1,0 +1,95 @@
+# Notification Service Configuration
+serviceName: notification-service
+replicaCount: 1
+
+# Container port (from PORT parameter)
+container:
+  port: 3000  # Update this if PORT parameter is different
+
+# Service port
+service:
+  type: ClusterIP
+  port: 3000
+
+# Resources
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "64m"
+  limits:
+    memory: "256Mi"
+    cpu: "128m"
+
+# Probes
+livenessProbe:
+  httpGet:
+    path: /
+    port: 3000
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+# External Secrets for notification service
+externalSecrets:
+  enabled: true
+  secretStoreName: aws-parameter-store
+  refreshInterval: 1h
+  parameters:
+    # Notification-specific parameters
+    - secretKey: API_PREFIX
+      remoteRef:
+        key: /prod/eduhub/notification/API_PREFIX
+    - secretKey: AWS_REGION
+      remoteRef:
+        key: /prod/eduhub/notification/AWS_REGION
+    - secretKey: AWS_SES_FROM_EMAIL
+      remoteRef:
+        key: /prod/eduhub/notification/AWS_SES_FROM_EMAIL
+    - secretKey: LOG_LEVEL
+      remoteRef:
+        key: /prod/eduhub/notification/LOG_LEVEL
+    - secretKey: PORT
+      remoteRef:
+        key: /prod/eduhub/notification/PORT
+    - secretKey: RATE_LIMIT_MAX_REQUESTS
+      remoteRef:
+        key: /prod/eduhub/notification/RATE_LIMIT_MAX_REQUESTS
+    - secretKey: RATE_LIMIT_WINDOW_MS
+      remoteRef:
+        key: /prod/eduhub/notification/RATE_LIMIT_WINDOW_MS
+    - secretKey: REDIS_DB
+      remoteRef:
+        key: /prod/eduhub/notification/REDIS_DB
+    - secretKey: REDIS_HOST
+      remoteRef:
+        key: /prod/eduhub/notification/REDIS_HOST
+    - secretKey: REDIS_PORT
+      remoteRef:
+        key: /prod/eduhub/notification/REDIS_PORT
+    - secretKey: QUEUE_ATTEMPTS
+      remoteRef:
+        key: /prod/eduhub/notification/QUEUE_ATTEMPTS
+    - secretKey: QUEUE_BACKOFF_DELAY
+      remoteRef:
+        key: /prod/eduhub/notification/QUEUE_BACKOFF_DELAY
+    - secretKey: QUEUE_CLEANUP_AGE
+      remoteRef:
+        key: /prod/eduhub/notification/QUEUE_CLEANUP_AGE
+    - secretKey: SERVICE_NAME
+      remoteRef:
+        key: /prod/eduhub/notification/SERVICE_NAME
+    
+    # Shared service parameters
+    - secretKey: NODE_ENV
+      remoteRef:
+        key: /prod/eduhub/services/NODE_ENV

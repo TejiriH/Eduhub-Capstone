@@ -24,3 +24,10 @@ spec:
             name: auth-service
             port:
               number: 4000
+      - path: /notifications(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: notification-service
+            port:
+              number: 3000
