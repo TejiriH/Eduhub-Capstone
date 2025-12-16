@@ -31,3 +31,10 @@ spec:
             name: notification-service
             port:
               number: 3000
+      - path: /catalog(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: catalog-service
+            port:
+              number: 8000

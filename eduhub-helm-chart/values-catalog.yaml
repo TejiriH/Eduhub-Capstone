@@ -1,0 +1,96 @@
+# Auth Service Configuration
+serviceName: catalog-service
+replicaCount: 1
+
+# Container port (what the app listens on)
+container:
+  port: 8000
+
+# Service port (what Kubernetes exposes)
+service:
+  type: ClusterIP
+  port: 8000
+
+# Auth-specific resources
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "64m"
+  limits:
+    memory: "256Mi"
+    cpu: "128m"
+
+# Probes (use container.port)
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 8000
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+
+# External Secrets for auth service
+externalSecrets:
+  enabled: true
+  secretStoreName: aws-parameter-store
+  refreshInterval: 1h
+  parameters:
+    - secretKey: APP_NAME
+      remoteRef:
+        key: /prod/eduhub/catalog/APP_NAME
+    - secretKey: APP_VERSION
+      remoteRef:
+        key: /prod/eduhub/catalog/APP_VERSION
+    - secretKey: DEBUG
+      remoteRef:
+        key: /prod/eduhub/catalog/DEBUG
+    - secretKey: ENVIRONMENT
+      remoteRef:
+        key: /prod/eduhub/services/NODE_ENV
+    - secretKey: HOST
+      remoteRef:
+        key: /prod/eduhub/catalog/HOST
+    - secretKey: PORT
+      remoteRef:
+        key: /prod/eduhub/catalog/PORT
+    - secretKey: DATABASE_URL
+      remoteRef:
+        key: /prod/eduhub/catalog/DATABASE_URL
+    - secretKey: REDIS_URL
+      remoteRef:
+        key: /prod/eduhub/catalog/REDIS_URL
+    - secretKey: CACHE_TTL
+      remoteRef:
+        key: /prod/eduhub/catalog/CACHE_TTL
+    - secretKey: JWT_SECRET_KEY
+      remoteRef:
+        key: /prod/eduhub/catalog/JWT_SECRET_KEY
+    - secretKey: JWT_ALGORITHM
+      remoteRef:
+        key: /prod/eduhub/catalog/JWT_ALGORITHM
+    - secretKey: AUTH_SERVICE_URL
+      remoteRef:
+        key: /prod/eduhub/auth/APP_URL
+    - secretKey: DEFAULT_PAGE_SIZE
+      remoteRef:
+        key: /prod/eduhub/catalog/DEFAULT_PAGE_SIZE
+    - secretKey: MAX_PAGE_SIZE
+      remoteRef:
+        key: /prod/eduhub/catalog/MAX_PAGE_SIZE
+    - secretKey: CORS_ORIGINS
+      remoteRef:
+        key: /prod/eduhub/catalog/CORS_ORIGINS
+    - secretKey: ROOT_PATH
+      remoteRef:
+        key: /prod/eduhub/catalog/ROOT_PATH
