@@ -38,3 +38,10 @@ spec:
             name: catalog-service
             port:
               number: 8000
+      - path: /assignment(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: assignment-service
+            port:
+              number: 5000

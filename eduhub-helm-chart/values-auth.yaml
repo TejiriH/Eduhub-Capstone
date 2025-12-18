@@ -11,6 +11,10 @@ service:
   type: ClusterIP
   port: 4000
 
+  # Image configuration
+image:
+  tag: "latest"
+
 # Auth-specific resources
 resources:
   requests:

@@ -1,0 +1,127 @@
+# Auth Service Configuration
+serviceName: assignment-service
+replicaCount: 1
+
+# Container port (what the app listens on)
+container:
+  port: 3000
+
+
+# Service port (what Kubernetes exposes)
+service:
+  type: ClusterIP
+  port: 5000
+
+  # Image configuration
+image:
+  tag: "latest"
+
+# Auth-specific resources
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "64m"
+  limits:
+    memory: "256Mi"
+    cpu: "128m"
+
+# Probes (use container.port)
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 3000
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 5
+# External Secrets for assignment service
+externalSecrets:
+  enabled: true
+  secretStoreName: aws-parameter-store
+  refreshInterval: 1h
+  parameters:
+    # Server Configuration
+    - secretKey: PORT
+      remoteRef:
+        key: /prod/eduhub/assignment/PORT
+    - secretKey: NODE_ENV
+      remoteRef:
+        key: /prod/eduhub/assignment/NODE_ENV
+    
+    # Database Configuration
+    - secretKey: DB_HOST
+      remoteRef:
+        key: /prod/eduhub/assignment/DB_HOST
+    - secretKey: DB_PORT
+      remoteRef:
+        key: /prod/eduhub/assignment/DB_PORT
+    - secretKey: DB_NAME
+      remoteRef:
+        key: /prod/eduhub/assignment/DB_NAME
+    - secretKey: DB_USER
+      remoteRef:
+        key: /prod/eduhub/assignment/DB_USER
+    - secretKey: DB_PASSWORD
+      remoteRef:
+        key: /prod/eduhub/assignment/DB_PASSWORD
+    - secretKey: DB_DIALECT
+      remoteRef:
+        key: /prod/eduhub/assignment/DB_DIALECT
+    
+    # Redis Configuration
+    - secretKey: REDIS_URL
+      remoteRef:
+        key: /prod/eduhub/assignment/REDIS_URL
+    - secretKey: REDIS_HOST
+      remoteRef:
+        key: /prod/eduhub/assignment/REDIS_HOST
+    - secretKey: REDIS_PORT
+      remoteRef:
+        key: /prod/eduhub/assignment/REDIS_PORT
+    
+    # JWT Configuration
+    - secretKey: JWT_SECRET
+      remoteRef:
+        key: /prod/eduhub/assignment/JWT_SECRET
+    - secretKey: JWT_EXPIRES_IN
+      remoteRef:
+        key: /prod/eduhub/assignment/JWT_EXPIRES_IN
+    
+    # AWS S3 Configuration
+    - secretKey: AWS_ACCESS_KEY_ID
+      remoteRef:
+        key: /prod/eduhub/assignment/AWS_ACCESS_KEY_ID
+    - secretKey: AWS_SECRET_ACCESS_KEY
+      remoteRef:
+        key: /prod/eduhub/assignment/AWS_SECRET_ACCESS_KEY
+    - secretKey: AWS_REGION
+      remoteRef:
+        key: /prod/eduhub/assignment/AWS_REGION
+    - secretKey: AWS_BUCKET_NAME
+      remoteRef:
+        key: /prod/eduhub/assignment/AWS_BUCKET_NAME
+    
+    # External Service URLs
+    - secretKey: AUTH_SERVICE_URL
+      remoteRef:
+        key: /prod/eduhub/assignment/AUTH_SERVICE_URL
+    - secretKey: NOTIFICATION_SERVICE_URL
+      remoteRef:
+        key: /prod/eduhub/assignment/NOTIFICATION_SERVICE_URL
+    
+    # File Upload Configuration
+    - secretKey: MAX_FILE_SIZE
+      remoteRef:
+        key: /prod/eduhub/assignment/MAX_FILE_SIZE
+    - secretKey: ALLOWED_FILE_TYPES
+      remoteRef:
+        key: /prod/eduhub/assignment/ALLOWED_FILE_TYPES

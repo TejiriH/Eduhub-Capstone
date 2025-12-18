@@ -11,6 +11,10 @@ service:
   type: ClusterIP
   port: 3000
 
+# Image configuration
+image:
+  tag: "latest"
+
 # Resources
 resources:
   requests:
