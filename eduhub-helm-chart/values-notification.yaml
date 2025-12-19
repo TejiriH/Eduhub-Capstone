@@ -25,23 +25,12 @@ resources:
     cpu: "128m"
 
 # Probes
+# Probes disabled because app has no safe health endpoint
 livenessProbe:
-  httpGet:
-    path: /
-    port: 3000
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  timeoutSeconds: 5
-  failureThreshold: 5
-
+  enabled: false
 readinessProbe:
-  httpGet:
-    path: /
-    port: 3000
-  initialDelaySeconds: 30
-  periodSeconds: 5
-  timeoutSeconds: 3
-  failureThreshold: 5
+  enabled: false
+
 
 # External Secrets for notification service
 externalSecrets:

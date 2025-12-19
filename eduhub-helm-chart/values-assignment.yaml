@@ -52,7 +52,7 @@ externalSecrets:
     # Server Configuration
     - secretKey: PORT
       remoteRef:
-        key: /prod/eduhub/assignment/PORT
+        key: /prod/eduhub/services/PORT
     - secretKey: NODE_ENV
       remoteRef:
         key: /prod/eduhub/assignment/NODE_ENV
