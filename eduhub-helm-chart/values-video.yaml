@@ -1,0 +1,132 @@
+# Auth Service Configuration
+serviceName: video-service
+replicaCount: 1
+
+# Container port (what the app listens on)
+container:
+  port: 3003
+
+# Service port (what Kubernetes exposes)
+service:
+  type: ClusterIP
+  port: 3003
+
+  # Image configuration
+image:
+  tag: "latest"
+
+# Auth-specific resources
+resources:
+  requests:
+    memory: "128Mi"
+    cpu: "64m"
+  limits:
+    memory: "256Mi"
+    cpu: "128m"
+
+# Probes (use container.port)
+livenessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: 3003
+  initialDelaySeconds: 60
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  httpGet:
+    path: /api/v1/health
+    port: 3003
+  initialDelaySeconds: 30
+  periodSeconds: 5
+  timeoutSeconds: 3
+  failureThreshold: 5
+
+# External Secrets for video service
+externalSecrets:
+  enabled: true
+  secretStoreName: aws-parameter-store
+  refreshInterval: 1h
+  parameters:
+    - secretKey: PORT
+      remoteRef:
+        key: /prod/eduhub/video/PORT
+    - secretKey: NODE_ENV
+      remoteRef:
+        key: /prod/eduhub/services/NODE_ENV
+    - secretKey: SERVICE_NAME
+      remoteRef:
+        key: /prod/eduhub/video/SERVICE_NAME
+    - secretKey: DB_HOST
+      remoteRef:
+        key: /prod/eduhub/video/DB_HOST
+    - secretKey: DB_PORT
+      remoteRef:
+        key: /prod/eduhub/video/DB_PORT
+    - secretKey: DB_NAME
+      remoteRef:
+        key: /prod/eduhub/video/DB_NAME
+    - secretKey: DB_USER
+      remoteRef:
+        key: /prod/eduhub/video/DB_USER
+    - secretKey: DB_PASSWORD
+      remoteRef:
+        key: /prod/eduhub/video/DB_PASSWORD
+    - secretKey: DB_SSL
+      remoteRef:
+        key: /prod/eduhub/video/DB_SSL
+    - secretKey: REDIS_HOST
+      remoteRef:
+        key: /prod/eduhub/video/REDIS_HOST
+    - secretKey: REDIS_PORT
+      remoteRef:
+        key: /prod/eduhub/video/REDIS_PORT
+    # - secretKey: REDIS_PASSWORD
+    #   remoteRef:
+    #     key: /prod/eduhub/video/REDIS_PASSWORD
+    - secretKey: REDIS_DB
+      remoteRef:
+        key: /prod/eduhub/video/REDIS_DB
+    - secretKey: REDIS_TTL
+      remoteRef:
+        key: /prod/eduhub/video/REDIS_TTL
+    - secretKey: AWS_REGION
+      remoteRef:
+        key: /prod/eduhub/video/AWS_REGION
+    - secretKey: AWS_S3_BUCKET
+      remoteRef:
+        key: /prod/eduhub/video/AWS_S3_BUCKET
+    - secretKey: CLOUDFRONT_DISTRIBUTION_DOMAIN
+      remoteRef:
+        key: /prod/eduhub/video/CLOUDFRONT_DISTRIBUTION_DOMAIN
+    - secretKey: PRESIGNED_URL_EXPIRY_HOURS
+      remoteRef:
+        key: /prod/eduhub/video/PRESIGNED_URL_EXPIRY_HOURS
+    - secretKey: MAX_FILE_SIZE
+      remoteRef:
+        key: /prod/eduhub/video/MAX_FILE_SIZE
+    - secretKey: ALLOWED_VIDEO_FORMATS
+      remoteRef:
+        key: /prod/eduhub/video/ALLOWED_VIDEO_FORMATS
+    - secretKey: UPLOAD_TEMP_DIR
+      remoteRef:
+        key: /prod/eduhub/video/UPLOAD_TEMP_DIR
+    - secretKey: LOG_LEVEL
+      remoteRef:
+        key: /prod/eduhub/video/LOG_LEVEL
+    - secretKey: ALLOWED_ORIGINS
+      remoteRef:
+        key: /prod/eduhub/video/ALLOWED_ORIGINS
+    - secretKey: JWT_SECRET
+      remoteRef:
+        key: /prod/eduhub/video/JWT_SECRET
+    - secretKey: JWT_ISSUER
+      remoteRef:
+        key: /prod/eduhub/video/JWT_ISSUER
+    - secretKey: AUTH_SERVICE_URL
+      remoteRef:
+        key: /prod/eduhub/video/AUTH_SERVICE_URL
+    - secretKey: CATALOG_SERVICE_URL
+      remoteRef:
+        key: /prod/eduhub/video/CATALOG_SERVICE_URL
