@@ -13,7 +13,7 @@ service:
 
   # Image configuration
 image:
-  tag: "latest"
+  tag: "v1"
 
 # Auth-specific resources
 resources:
