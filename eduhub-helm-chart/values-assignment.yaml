@@ -1,21 +1,16 @@
 # Assignment Service Configuration
 serviceName: assignment-service
 replicaCount: 1
-
 # Container port (what the app listens on)
 container:
   port: 3000
-
-
 # Service port (what Kubernetes exposes)
 service:
   type: ClusterIP
   port: 5000
-
   # Image configuration
 image:
-  tag: "latest"
-
+  tag: "210bdf9"
 # Auth-specific resources
 resources:
   requests:
@@ -24,7 +19,6 @@ resources:
   limits:
     memory: "256Mi"
     cpu: "128m"
-
 # Probes (use container.port)
 livenessProbe:
   httpGet:
@@ -34,7 +28,6 @@ livenessProbe:
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 5
-
 readinessProbe:
   httpGet:
     path: /health
@@ -56,7 +49,6 @@ externalSecrets:
     - secretKey: NODE_ENV
       remoteRef:
         key: /prod/eduhub/services/NODE_ENV
-    
     # Database Configuration
     - secretKey: DB_HOST
       remoteRef:
@@ -76,7 +68,6 @@ externalSecrets:
     - secretKey: DB_DIALECT
       remoteRef:
         key: /prod/eduhub/assignment/DB_DIALECT
-    
     # Redis Configuration
     - secretKey: REDIS_URL
       remoteRef:
@@ -87,7 +78,6 @@ externalSecrets:
     - secretKey: REDIS_PORT
       remoteRef:
         key: /prod/eduhub/assignment/REDIS_PORT
-    
     # JWT Configuration
     - secretKey: JWT_SECRET
       remoteRef:
@@ -95,7 +85,6 @@ externalSecrets:
     - secretKey: JWT_EXPIRES_IN
       remoteRef:
         key: /prod/eduhub/assignment/JWT_EXPIRES_IN
-    
     # AWS S3 Configuration
     - secretKey: AWS_ACCESS_KEY_ID
       remoteRef:
@@ -109,7 +98,6 @@ externalSecrets:
     - secretKey: AWS_BUCKET_NAME
       remoteRef:
         key: /prod/eduhub/assignment/AWS_BUCKET_NAME
-    
     # External Service URLs
     - secretKey: AUTH_SERVICE_URL
       remoteRef:
@@ -117,7 +105,6 @@ externalSecrets:
     - secretKey: NOTIFICATION_SERVICE_URL
       remoteRef:
         key: /prod/eduhub/assignment/NOTIFICATION_SERVICE_URL
-    
     # File Upload Configuration
     - secretKey: MAX_FILE_SIZE
       remoteRef:
