@@ -10,7 +10,7 @@ service:
   port: 5000
   # Image configuration
 image:
-  tag: "latest"
+  tag: "210bdf9"
 # Auth-specific resources
 resources:
   requests:
