@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fluent-bit
+  namespace: logging
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::559050244875:role/FluentBitCloudWatchRole

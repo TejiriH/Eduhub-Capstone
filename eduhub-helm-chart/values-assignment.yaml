@@ -1,4 +1,4 @@
-# Auth Service Configuration
+# Assignment Service Configuration
 serviceName: assignment-service
 replicaCount: 1
 

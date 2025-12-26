@@ -1,0 +1,15 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+      ],
+      "Resource": "arn:aws:logs:eu-west-1:559050244875:log-group:/aws/eks/Teleios-Eduhub-Academy-prod-eks-cluster/*"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: efs-sc
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: 30Gi
+
+grafana:
+  adminPassword: "YourSecurePassword123!"
+  persistence:
+    enabled: true
+    storageClassName: efs-sc
+    accessModes: ["ReadWriteMany"]
+    size: 10Gi
+  service:
+    type: ClusterIP
+  # Disable init container and set securityContext to match EFS UID/GID
+  initChownData:
+    enabled: false
+  securityContext:
+    runAsUser: 50000
+    runAsGroup: 50000
+    fsGroup: 50000
+
+alertmanager:
+  alertmanagerSpec:
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: efs-sc
+          accessModes: ["ReadWriteMany"]
+          resources:
+            requests:
+              storage: 10Gi
